@@ -5,9 +5,9 @@ Project based on the task in ```task.pdf```
 ## Project structure
 
 ```main.py``` - the main executable file <br>
+```tests.py``` - unittests that cover most of the functionalities <br>
 ```requirements.txt``` - the additional needed dependencies to run the project <br>
 ```source/``` - folder with additional source code <br>
-```tests.py``` - u   nittests that cover most of the functionalities
 &emsp;&emsp;&emsp; ```arguments_parsing.py``` - checking and parsing arguments <br>
 &emsp;&emsp;&emsp; ```token_configuration.py``` - extracting the 2 tokens <br>
 &emsp;&emsp;&emsp; ```helper_functions.py``` - additional helping functions <br>
