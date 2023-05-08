@@ -5,7 +5,6 @@ Project based on the task in ```task.pdf```
 ## Project structure
 
 ```main.py``` - the main executable file <br>
-```database``` - the sqlite3 database file created to record Github users <br>
 ```requirements.txt``` - the additional needed dependencies to run the project <br>
 ```source/``` - folder with additional source code <br>
 &emsp;&emsp;&emsp; ```arguments_parsing.py``` - checking and parsing arguments <br>
