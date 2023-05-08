@@ -8,7 +8,7 @@ def github_user_info(username: str):
     response = requests.get(url, auth=(username, GITHUB_TOKEN))
 
     if response.status_code != 200:
-        raise Exception(f"Error while getting information from Github API")
+        raise Exception(f"Error while getting information for this user from Github API")
 
     return response.json()
 
@@ -16,22 +16,28 @@ def github_user_info(username: str):
 # pprint(github_user_info("HarkoFMI"))
 
 
-def create_payload(user_info):
+def create_payload(user_info: dict) -> dict:
     payload = {}
 
-    if user_info["name"]:
-        payload["name"] = user_info["name"]
+    if "name" in user_info.keys():
+        if user_info["name"]:
+            payload["name"] = user_info["name"]
     else:
         raise Exception("Cannot create contact without name!")
 
-    if user_info["email"]:
-        payload["email"] = user_info["email"]
+    if "email" in user_info.keys():
+        if user_info["email"]:
+            payload["email"] = user_info["email"]
     else:
         raise Exception("Cannot create contact without email!")
-    if user_info["location"]:
-        payload["address"] = user_info["location"]
-    if user_info["bio"]:
-        payload["description"] = user_info["bio"]
+
+    if "location" in user_info.keys():
+        if user_info["location"]:
+            payload["address"] = user_info["location"]
+
+    if "bio" in user_info.keys():
+        if user_info["bio"]:
+            payload["description"] = user_info["bio"]
 
     return payload
 
@@ -39,11 +45,14 @@ def create_payload(user_info):
 # pprint(create_payload(github_user_info("HarkoFMI")))
 
 
-def make_freshdesk_contact(user_info, domain: str):
+def make_freshdesk_contact(user_info: dict, domain: str) -> str:
     payload = create_payload(user_info)
 
     url = f"https://{domain}.freshdesk.com/api/v2/contacts"
     response = requests.get(url, auth=(FRESHDESK_TOKEN, "X"))
+    if not 199 < response.status_code < 300:
+        raise Exception("Error with get request on this domain")
+
     for contact in response.json():
         if contact["name"] == user_info["name"]:
             request = requests.put(f'https://{domain}.freshdesk.com/api/v2/contacts/{contact["id"]}', json=payload,
@@ -62,4 +71,5 @@ def make_freshdesk_contact(user_info, domain: str):
 
     return "Created contact successfully"
 
-# print(make_freshdesk_contact("HarkoFMI", "harutpartamian"))
+
+# print(make_freshdesk_contact(github_user_info("reo101"), "jorko"))
