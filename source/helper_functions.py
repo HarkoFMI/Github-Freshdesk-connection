@@ -1,6 +1,6 @@
 import requests
 from pprint import pprint
-from token_configuration import GITHUB_TOKEN, FRESHDESK_TOKEN
+from source.token_configuration import GITHUB_TOKEN, FRESHDESK_TOKEN
 
 
 def github_user_info(username: str):
@@ -39,8 +39,7 @@ def create_payload(user_info):
 # pprint(create_payload(github_user_info("HarkoFMI")))
 
 
-def make_freshdesk_contact(github_username: str, domain: str):
-    user_info = github_user_info(github_username)
+def make_freshdesk_contact(user_info, domain: str):
     payload = create_payload(user_info)
 
     url = f"https://{domain}.freshdesk.com/api/v2/contacts"
